@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
-import { request, setAuthToken } from '../api/axiosHelper';
+import { cleanToken, request, setInfoToken } from '../api/axiosHelper';
 import { IUserSigninRequest } from '../tipagem/IUser';
 import { RequestInitialState } from '../constantes/CUser';
 import { Box, Grid, Paper } from '@mui/material';
@@ -12,11 +12,11 @@ const SignIn: React.FC = () => {
 
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    console.log({ formData })
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
   const handleSubmit = (e: React.FormEvent) => {
+    cleanToken()
     setFormData({ ...formData, "login": formData.email })
     e.preventDefault();
     request(
@@ -24,7 +24,8 @@ const SignIn: React.FC = () => {
       "/register",
       { ...formData, "login": formData.email }
     ).then((res) => {
-      setAuthToken(res.data.token)
+      setInfoToken(res.data.token)
+      console.log(res.data)
       window.sessionStorage.setItem("userInfo", res.data)
     }
     ).catch(e => console.log(e))

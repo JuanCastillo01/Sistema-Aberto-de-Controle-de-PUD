@@ -19,3 +19,8 @@ export interface IUserResponse {
     permissao :string,
     password : String,
 }
+
+export interface IToken {
+    accessToken : string, 
+    token: string
+}

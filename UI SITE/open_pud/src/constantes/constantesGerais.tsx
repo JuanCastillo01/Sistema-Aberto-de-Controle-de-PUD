@@ -11,6 +11,7 @@ import ManterReferencias from "../pages/ManterReferencias";
 import ManterUsuarios from "../pages/ManterUsuarios";
 import { IModule } from "../tipagem/IModule";
 import SelecaoUsuario from "../pages/SelecaoUsuario";
+import { IErro } from "../tipagem/IGeral";
 
 export const systemModules : IModule[] = [
     {
@@ -91,3 +92,7 @@ export const systemModules : IModule[] = [
       permissonType: "generico"
     }
 ] 
+export const erroInitialState : IErro = {
+  erro: false,
+  mensagem: ""
+}

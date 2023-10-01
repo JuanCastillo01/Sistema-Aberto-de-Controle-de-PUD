@@ -56,10 +56,17 @@ public class UserServiceImpl implements UserService {
         return userMapper.toDto(savedUser);
     }
 
-    public UserDto findByLogin(String login) {
+    @Override
+    public Optional<UserEntity> findByLogin(String login) {
+        return userRepository.findByLogin(login);
+    }
+
+    public UserDto findUserDtoByLogin(String login) {
         UserEntity user = userRepository.findByLogin(login)
                 .orElseThrow(() -> new AppException("Unknown user", HttpStatus.NOT_FOUND));
         return userMapper.toDto(user);
     }
+
+
 
 }

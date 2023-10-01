@@ -1,5 +1,6 @@
 package com.back.openpud.api.dto;
 
+import com.back.openpud.api.dto.response.JwtResponse;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -16,6 +17,6 @@ public class UserDto {
     private String password;
     private String email;
     private String permissao;
-    private String token;
+    private JwtResponse token;
 
 }

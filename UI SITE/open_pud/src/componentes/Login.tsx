@@ -2,26 +2,34 @@ import React, { useState } from 'react';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import { Link } from 'react-router-dom';
-import { useLoginRequest } from '../api/useLoginRequest';
 import { Grid, Paper, Box } from '@mui/material';
 import { IUserLoginRequest, IUserResponse, IUserSigninRequest } from '../tipagem/IUser';
 import { userLoginInitial } from '../constantes/CUser';
+import { cleanToken, refreshToken, request, setInfoToken,  } from '../api/axiosHelper';
+import { AxiosError } from 'axios';
 
 const LogIn: React.FC = () => {
-  const { data, error, loading, mandarUser } = useLoginRequest();
   const [formData, setFormData] = useState<IUserLoginRequest>(userLoginInitial);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
+    console.log(formData)
   };
 
   const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    mandarUser(formData)
+    cleanToken()
 
-    console.log('Log In Data:', formData);
-
-    console.log('Log In Data:', data);
+    e.preventDefault()
+    request(
+      "POST",
+      "/login",
+      formData
+    ).then((res) => {
+      console.log(res.data)
+      setInfoToken(res.data.token)
+      window.sessionStorage.setItem("userInfo", res.data)
+    }).catch((err:AxiosError) => {
+    })
   };
 
   return (

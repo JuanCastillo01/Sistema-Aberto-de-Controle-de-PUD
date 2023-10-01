@@ -20,6 +20,9 @@ public class InstituicaoEntity {
     @Column(name = "ID")
     private Long id;
 
+    @Column(name = "SLG_INSTITUCAO")
+      private String siglaInstituicao;
+
     @Column(name = "NM_INSTITUCAO")
     private String nomeInstituicao;
 

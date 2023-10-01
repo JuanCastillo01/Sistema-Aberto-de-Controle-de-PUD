@@ -1,4 +1,4 @@
-package com.back.openpud.api.dto;
+package com.back.openpud.api.dto.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -6,11 +6,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class CredentialsDto {
-    private String login;
-    private String password;
-
+public class RefreshTokenRequestDTO {
+    private String Token;
 }
