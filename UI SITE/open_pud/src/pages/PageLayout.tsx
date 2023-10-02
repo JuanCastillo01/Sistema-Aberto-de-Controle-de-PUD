@@ -1,20 +1,25 @@
 import { Grid } from '@mui/material';
 import React, { ReactNode } from 'react';
+import Header from '../componentes/Header';
 import Menu from '../componentes/Menu';
 
 
 interface PageLayoutProps {
   children: ReactNode;
+  headerText: string;
 }
 
-const PageLayout: React.FC<PageLayoutProps> = ({ children }) => {
+const PageLayout: React.FC<PageLayoutProps> = ({ children, headerText }) => {
   return (
-    <Grid container spacing={3}>
-      <Grid item xs={2}>
-        <Menu />
+    <Grid container style={{ paddingTop: '128px' }}>
+      <Grid item xs={1} lg={2}></Grid> {/* Left margin */}
+      <Grid item xs={11} lg={10} style={{ display: 'flex', justifyContent: 'center' }}>
+        <Header headerText={headerText} />
+        {children} {/* Place the content inside the center grid */}
       </Grid>
-      <Grid item xs={10}>
-        {children}
+      
+      <Grid item xs={2} lg={2}>
+        <Menu />
       </Grid>
     </Grid>
   );

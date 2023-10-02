@@ -6,7 +6,7 @@ import { erroInitialState } from "../constantes/constantesGerais";
 
 export function useGetAllInstituicoes(){
     const PATH_BUSCAR_TODAS = "/instituicoes"
-    const PATH_ADICIONAR  = "/adicionarCasos"
+    const PATH_ADICIONAR  = "/instituicoes/adicionar"
     const [data, setData] = useState<IInstituicoes[]>([]);
     const [loading, setLoading] = useState<boolean>(false);
     const [error, setError] = useState<IErro>(erroInitialState);
@@ -27,13 +27,13 @@ export function useGetAllInstituicoes(){
         })
 
     }    
-    const adicionarInstituicoes = async () => {
+    const adicionarInstituicoes = async (instituicao : IInstituicoes) => {
         setLoading(true)
         setData([])
         request(
-            "GET",
+            "POST",
             PATH_ADICIONAR,
-            {}
+            instituicao
         ).then((res)=>{
             setData(res.data.content)
         }).catch((erro)=>{

@@ -1,16 +1,49 @@
-import MUIDataTable,{MUIDataTableOptions,MUIDataTableColumn } from "mui-datatables";
+import React, { useState } from 'react';
+import { Grid, Paper, IconButton, Button } from '@mui/material';
+import MUIDataTable, { MUIDataTableOptions, MUIDataTableColumn } from "mui-datatables";
 import { useGetAllInstituicoes } from "../api/useGetAllInstituicoes";
-import { useLayoutEffect } from "react";
-import React from "react";
 import { refreshToken } from "../api/axiosHelper";
+import EditIcon from '@mui/icons-material/Edit';
+import AddInstituicaoDialog from './AddInstituicaoDialog'; // Adjust the import path
+import { IInstituicoes, IInstituicoesDialog } from '../tipagem/IInstituicoes';
+import EditInstituicaoDialog from './EditInstituicaoDialog';
 
 const TabelaBasicaInstituicoes = () => {
-  const {data, loading, error, recuperarInstituicoes, adicionarInstituicoes}  = useGetAllInstituicoes()
-  const columns : MUIDataTableColumn[] = [
+  const { data, loading, error, recuperarInstituicoes ,adicionarInstituicoes} = useGetAllInstituicoes();
+  const [openModal, setOpenModal] = useState(false);
+  const [openEditModal, setOpenEditModal] = useState(false);
+  const [selectedInstituicao, setSelectedInstituicao] = useState<IInstituicoesDialog>();
+
+  const handleOpenEditModal = (instituicao: IInstituicoesDialog) => {
+    setSelectedInstituicao(instituicao);
+    setOpenEditModal(true);
+  };
+
+
+
+  const handleCloseEditModal = () => {
+    setOpenEditModal(false);
+    
+  };
+
+  const handleOpenModal = () => {
+    setOpenModal(true);
+  };
+
+  const handleCloseModal = () => {
+    setOpenModal(false);
+  };
+
+  const handleAddInstituicao = (instituicao: IInstituicoes) => {
+    adicionarInstituicoes(instituicao)
+    console.log('Adding institution:', instituicao);
+  };
+
+  const columns: MUIDataTableColumn[] = [
     {
       name: 'abrev',
       label: 'Abreviação',
-      
+
     },
     {
       name: 'nomeCompleto',
@@ -26,43 +59,69 @@ const TabelaBasicaInstituicoes = () => {
       label: 'Email',
     },
     {
-      name: 'numeroUsuarios',
-      label: 'Nº Usuarios',
-    },
-    {
       name: 'acoes',
       label: 'Ações',
+      options: {
+        customBodyRender: (value, tableMeta) => {
+          let listaDeCasos = data[tableMeta.rowIndex]; // Get the institution based on the row index
+          let instituicaoDialogo :IInstituicoesDialog = {
+            siglaInstituicao: listaDeCasos.siglaInstituicao,
+            nomeInstituicao: listaDeCasos.nomeInstituicao,
+            caminhoEmail: (listaDeCasos.caminhoEmail ===null) ? [""] :listaDeCasos.caminhoEmail.split(",")
+          }
+          return (
+            <IconButton
+              size="medium"
+              color="primary"
+              key={`edit-button-${tableMeta.rowIndex}`}
+              onClick={() => handleOpenEditModal(instituicaoDialogo)}
+            >
+              <EditIcon />
+            </IconButton>
+          );
+        }
+      },
+    }
+  ];
+
+
+
+  const options: MUIDataTableOptions = {
+    selectableRows: 'none',
+    customToolbar: () => {
+      return (<Button sx={{ padding: "8" }} variant="contained" onClick={handleOpenModal}>
+        Adicionar
+      </Button>)
     },
-  ];
-
-  const dataMock = [
-    ['IFCE', 'Instituto Federal de Educação, Ciência e Tecnologia do Ceará', 'Campus Maracanau', 'Insittto tecnico', '@aluno.ifce.edu.br\n@professor.ifce.edu.br', '1' ],
-    ['IFCE', 'Instituto Federal de Educação, Ciência e Tecnologia do Ceará', 'Campus Fortaleza', 'Insituto tecnico', '@aluno.ifce.edu.br\n@professor.ifce.edu.br', '1' ],
-    ['UFC', 'Universidade Federal do Ceará', 'Campus Fortaleza', 'Ensino Superior', '@aluno.ufc.edu.br\n@professor.ufc.edu.br', '1' ],
-    ['UECE', 'Universidade Estadual do Ceará', 'Campus Itaperi', 'Ensino Superior', '@aluno.ufc.edu.br\n@professor.uece.edu.br', '1' ],
+    viewColumns: false,
 
 
-    // Add more rows as needed
-  ];
-
-  const options : MUIDataTableOptions  = {
-    selectableRows: 'none', // or 'multiple' if you want to enable row selection
   };
-  React.useLayoutEffect(()=>{
+  React.useLayoutEffect(() => {
     recuperarInstituicoes()
     refreshToken()
-  },[])
+  }, [])
 
   return (
-    <MUIDataTable
-      title={'Exemplo de DataTable'}
-      data={data.map((item)=>[item.siglaInstituicao,item.nomeInstituicao,"Detalhes/observações", item.caminhoEmail, ])}
-      columns={columns}
-      options={options}
-    />
+    <>
+      <MUIDataTable
+        title={'INSTITUIÇÕES'}
+        data={data.map((item) => [item.siglaInstituicao, item.nomeInstituicao, "Detalhes/observações", item.caminhoEmail])}
+        columns={columns}
+        options={options}
+      />
+
+      {/* Modal for adding a new institution */}
+      <AddInstituicaoDialog open={openModal} onClose={handleCloseModal} onAdd={handleAddInstituicao} />
+      {selectedInstituicao && (
+        <EditInstituicaoDialog
+          open={openEditModal}
+          onClose={handleCloseEditModal}
+          instituicao={selectedInstituicao}
+        />
+      )}
+    </>
   );
 };
 
 export default TabelaBasicaInstituicoes;
-
-

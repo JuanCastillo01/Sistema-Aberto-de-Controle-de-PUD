@@ -6,3 +6,12 @@ export interface IInstituicoes{
     caminhoEmail : string
 
 }
+
+export interface IInstituicoesDialog{
+    siglaInstituicao  : string;
+
+    nomeInstituicao : string,
+    
+    caminhoEmail : string[]
+
+}

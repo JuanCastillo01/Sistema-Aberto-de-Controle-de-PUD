@@ -10,7 +10,7 @@ import { systemModules } from './constantes/constantesGerais';
 const App: React.FC = () => {
   const generateRoutes = () => {
     return systemModules.map((item,index) => (
-      <Route path={item.path}  element={<PageLayout>{item.element}</PageLayout>}/>
+      <Route path={item.path}  element={<PageLayout  headerText={item.name}>{item.element}</PageLayout>}/>
     ))
   }
   return (

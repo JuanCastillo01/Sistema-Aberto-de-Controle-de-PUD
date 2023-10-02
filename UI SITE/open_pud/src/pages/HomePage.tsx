@@ -7,8 +7,7 @@ import { Box, Grid, Paper } from '@mui/material';
 const HomePage: React.FC = () => {
   return (
     <Paper>
-      <h1>Pagina principal 
-      </h1>
+
     </Paper>
   );
 };

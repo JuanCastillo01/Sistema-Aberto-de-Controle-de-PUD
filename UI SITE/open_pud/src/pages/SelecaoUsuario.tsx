@@ -16,7 +16,6 @@ const SelecaoUsuario: React.FC = () => {
 
   return (
   <>
-    <Typography variant='h3' align="center" style={{ textDecoration: 'underline' }}>Selecione seu Usuario</Typography>
     <Paper variant="outlined" style={{ padding: '5px', backgroundColor: '#f0f0f0' }}>
       <Tabs 
         value={value} 
@@ -25,7 +24,7 @@ const SelecaoUsuario: React.FC = () => {
         textColor="primary"
         variant="fullWidth" >
         <Tab label="Registrar" onClick={(e) => handleChange(e, 0)} style={{ fontSize: '1.5rem' }}/>
-        <Tab label="Acessar" onClick={(e) => handleChange(e, 1)} style={{ fontSize: '1.5rem' }}/>
+        <Tab label="Entrar" onClick={(e) => handleChange(e, 1)} style={{ fontSize: '1.5rem' }}/>
       </Tabs>
       <TabPanel value={value} index={0}>
         <SignIn />
