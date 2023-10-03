@@ -4,20 +4,19 @@ import { IInstituicoes } from "../tipagem/IInstituicoes";
 import { IErro } from "../tipagem/IGeral";
 import { erroInitialState } from "../constantes/constantesGerais";
 
-export function useGetAllInstituicoes(){
-    const PATH_BUSCAR_TODAS = "/instituicoes"
-    const PATH_ADICIONAR  = "/instituicoes/adicionar"
-    const [data, setData] = useState<IInstituicoes[]>([]);
+export function useEditInstituicoes(){
+    const PATH_EDITAR  = "/instituicoes/editar"
+    const [data, setData] = useState<IInstituicoes>();
     const [loading, setLoading] = useState<boolean>(false);
     const [error, setError] = useState<IErro>(erroInitialState);
-    
-    const recuperarInstituicoes = async () => {
+       
+    const editarInstituicoes = async (instituicao : IInstituicoes) => {
+        console.log(instituicao)
         setLoading(true)
-        setData([])
         request(
-            "GET",
-            PATH_BUSCAR_TODAS,
-            {}
+            "PUT",
+            PATH_EDITAR,
+            instituicao
         ).then((res)=>{
             setData(res.data.content)
         }).catch((erro)=>{
@@ -26,6 +25,6 @@ export function useGetAllInstituicoes(){
             setLoading(false)
         })
 
-    }    
-    return {data, loading, error, recuperarInstituicoes}
+    }
+    return {data, loading, error, editarInstituicoes}
 }

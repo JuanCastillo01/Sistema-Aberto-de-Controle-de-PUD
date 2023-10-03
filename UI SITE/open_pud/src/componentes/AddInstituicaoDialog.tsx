@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Dialog, DialogTitle, DialogContent, DialogActions, Button, TextField, Grid } from '@mui/material';
-import { IInstituicoes, IInstituicoesDialog } from '../tipagem/IInstituicoes';
+import { IInstituicoes } from '../tipagem/IInstituicoes';
+import { useAddInstituicoes } from '../api/useAddInstituicoes';
 
 interface AddInstituicaoDialogProps {
     open: boolean;
@@ -8,10 +9,14 @@ interface AddInstituicaoDialogProps {
     onAdd: (instituicao: IInstituicoes) => void;
 }
 
-const initialInsititucaoDialogState ={
+const initialInsititucaoDialogState :IInstituicoes={
+    id: null,
     siglaInstituicao: '',
     nomeInstituicao: '',
-    caminhoEmail: [''],
+    dominiosAcademicos: [{
+        id: null,
+        domino: "",
+    }],
 }
 
 const emailPathRegex: RegExp = /@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
@@ -20,7 +25,9 @@ const isEmailValid = (email: string): boolean => {
   return emailPathRegex.test(email);
 };
 const AddInstituicaoDialog: React.FC<AddInstituicaoDialogProps> = ({ open, onClose, onAdd }) => {
-    const [instituicao, setInstituicao] = useState<IInstituicoesDialog>(initialInsititucaoDialogState);
+    const postOne = useAddInstituicoes();
+
+    const [instituicao, setInstituicao] = useState<IInstituicoes>(initialInsititucaoDialogState);
 
     const handleTextFieldChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = event.target;
@@ -32,41 +39,41 @@ const AddInstituicaoDialog: React.FC<AddInstituicaoDialogProps> = ({ open, onClo
 
     const handleAddInstituicao = () => {
         const areFieldsEmpty = Object.values(instituicao).some((field) => field === '');
-        if(areFieldsEmpty){
-            alert("'Por favor, completa todos los campos.'")
-        }
-        else{
-            let obj: IInstituicoes = {
-                caminhoEmail: instituicao.caminhoEmail.toString(),
-                nomeInstituicao: instituicao.nomeInstituicao,
-                siglaInstituicao: instituicao.siglaInstituicao
-    
-            }
-            onAdd(obj);
-            onClose();
-            setInstituicao(initialInsititucaoDialogState)
+
+        if (areFieldsEmpty) {
+            alert("'Por favor, preencha todos los campos.'");
+        } else {
+            postOne.adicionarInstituicoes(instituicao)
+                .then(() => {
+                    setInstituicao(initialInsititucaoDialogState);
+                    onClose();
+                })
+                .catch((error) => {
+                    console.error('Error adding institution:', error);
+                });
         }
     };
+    
     const handleCancelInstituicao = () => {
         onClose();
         setInstituicao(initialInsititucaoDialogState)
     }
     const handleCaminhoEmailChange = (index: number, value: string) => {
         
-        const updatedCaminhosEmail = [...instituicao.caminhoEmail];
-        updatedCaminhosEmail[index] = value;
+        const updatedCaminhosEmail = [...instituicao.dominiosAcademicos];
+        updatedCaminhosEmail[index] = {id:null, domino: value};
         setInstituicao((prevInstituicao) => ({
             ...prevInstituicao,
-            caminhoEmail: updatedCaminhosEmail,
+            dominiosAcademicos: updatedCaminhosEmail,
         }));
     };
 
     const handleAddCaminhoEmail = () => {
-        const lastEmailPath = instituicao.caminhoEmail[instituicao.caminhoEmail.length - 1];
-        if (lastEmailPath && lastEmailPath.trim() !== '') {
+        const lastEmailPath = instituicao.dominiosAcademicos[instituicao.dominiosAcademicos.length - 1];
+        if (lastEmailPath && lastEmailPath.domino.trim() !== '') {
             setInstituicao((prevInstituicao) => ({
                 ...prevInstituicao,
-                caminhoEmail: [...prevInstituicao.caminhoEmail, ''],
+                dominiosAcademicos: [...prevInstituicao.dominiosAcademicos, {id:null, domino: ""}],
             }));
         }
     };
@@ -96,12 +103,12 @@ const AddInstituicaoDialog: React.FC<AddInstituicaoDialogProps> = ({ open, onClo
                             margin="normal"
                         />
                     </Grid>
-                        {instituicao.caminhoEmail.map((caminho: any, index: number) => (
+                        {instituicao.dominiosAcademicos.map((caminho: any, index: number) => (
                             <Grid item xs={12} key={index}>
                                 <TextField
                                     fullWidth
                                     label={`Caminho do Email ${index + 1}`}
-                                    value={caminho}
+                                    value={caminho.domino}
                                     onChange={(e) => handleCaminhoEmailChange(index, e.target.value)}
                                     margin="normal"
 
@@ -113,7 +120,7 @@ const AddInstituicaoDialog: React.FC<AddInstituicaoDialogProps> = ({ open, onClo
                             variant="outlined"
                             onClick={handleAddCaminhoEmail}
                             color="primary"
-                            disabled={instituicao.caminhoEmail.length ===  0 || !emailPathRegex.test(instituicao.caminhoEmail[instituicao.caminhoEmail.length - 1].trim())}
+                            disabled={instituicao.dominiosAcademicos.length ===  0 || !emailPathRegex.test(instituicao.dominiosAcademicos[instituicao.dominiosAcademicos.length - 1].domino.trim())}
                         >
                             Adicionar Caminho do Email  
                         </Button>

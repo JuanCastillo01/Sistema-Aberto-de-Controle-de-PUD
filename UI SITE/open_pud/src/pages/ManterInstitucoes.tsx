@@ -8,7 +8,6 @@ const ManterInstitucoes: React.FC = () => {
     <Grid container justifyContent="center" alignItems="center" style={{ minHeight: '100vh' }}>
       <Grid item xs={12} md={10}>
         <Paper>
-
           <TabelaBasicaInstituicoes />
         </Paper>
       </Grid>

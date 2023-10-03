@@ -5,7 +5,7 @@ import com.back.openpud.api.dto.SignUpDto;
 import com.back.openpud.api.dto.UserDto;
 import com.back.openpud.core.entity.UserEntity;
 import com.back.openpud.core.exception.AppException;
-import com.back.openpud.core.mapper.UserMapper;
+import com.back.openpud.api.dto.mapper.UserMapper;
 import com.back.openpud.core.repository.UserRepository;
 import com.back.openpud.core.service.UserService;
 import lombok.RequiredArgsConstructor;

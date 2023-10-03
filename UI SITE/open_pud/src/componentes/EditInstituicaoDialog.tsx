@@ -9,19 +9,21 @@ import {
   Grid,
   IconButton
 } from '@mui/material';
-import { IInstituicoesDialog } from '../tipagem/IInstituicoes';
+import { IDominios, IInstituicoes } from '../tipagem/IInstituicoes';
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
+import { useEditInstituicoes } from '../api/useEditInstituicoes';
+import { Console } from 'console';
 
 const isValidEmail = (email: string): boolean => {
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  const emailRegex = /@[^\s@]+\.[^\s@]+$/;
   return emailRegex.test(email);
 };
 
 interface EditInstituicaoDialogProps {
   open: boolean;
   onClose: () => void;
-  instituicao: IInstituicoesDialog;
+  instituicao: IInstituicoes;
 }
 
 const EditInstituicaoDialog: React.FC<EditInstituicaoDialogProps> = ({
@@ -29,17 +31,19 @@ const EditInstituicaoDialog: React.FC<EditInstituicaoDialogProps> = ({
   onClose,
   instituicao
 }) => {
-  const [editedInstituicao, setEditedInstituicao] = useState<IInstituicoesDialog>(instituicao);
-  const [emails, setEmails] = useState<string[]>(instituicao.caminhoEmail || []);
+  const [editedInstituicao, setEditedInstituicao] = useState<IInstituicoes>(instituicao);
+  const [dominios, setDominios] = useState<IDominios[]>(instituicao.dominiosAcademicos);
+
+  const editInst = useEditInstituicoes()
 
   useEffect(() => {
     setEditedInstituicao(instituicao);
-    setEmails(instituicao.caminhoEmail || []);
+    setDominios(instituicao.dominiosAcademicos);
   }, [instituicao]);
 
   const handleTextFieldChange = (
     event: any,
-    field: keyof IInstituicoesDialog
+    field: keyof IInstituicoes
   ) => {
     const { value } = event.target;
     setEditedInstituicao((prevInstituicao) => ({
@@ -49,25 +53,26 @@ const EditInstituicaoDialog: React.FC<EditInstituicaoDialogProps> = ({
   };
 
   const handleAddEmail = () => {
-    const lastEmail = emails[emails.length - 1];
-    if (isValidEmail(lastEmail)) {
-      setEmails([...emails, '']);
+    const lastEmail = dominios[dominios.length - 1];
+    if (isValidEmail(lastEmail.domino)) {
+      setDominios([...dominios, {id:null, domino:''}]);
     } else {
       alert('Please enter a valid email before adding a new one.');
     }
   };
 
   const handleRemoveEmail = (index: number) => {
-    const updatedEmails = emails.filter((_, i) => i !== index);
-    setEmails(updatedEmails);
+    const updatedEmails = dominios.filter((_, i) => i !== index);
+    setDominios(updatedEmails);
   };
 
   const handleUpdateInstituicao = () => {
-    const updatedInstituicao: IInstituicoesDialog = {
+    const updatedInstituicao: IInstituicoes = {
       ...editedInstituicao,
-      caminhoEmail: emails
+      dominiosAcademicos: dominios
     };
-    console.log('Updating institution:', updatedInstituicao);
+    
+    editInst.editarInstituicoes(updatedInstituicao)
     onClose();
   };
 
@@ -98,15 +103,17 @@ const EditInstituicaoDialog: React.FC<EditInstituicaoDialogProps> = ({
           </Grid>          <Grid item xs={12}>
             <div>
               <label>Caminhos do Email:</label>
-              {emails.map((email, index) => (
+              {dominios.map((doms, index) => (
                 <div key={index} style={{ display: 'flex' }}>
                   <TextField
                     fullWidth
-                    value={email}
+                    value={doms.domino}
                     onChange={(e) => {
-                      const updatedEmails = [...emails];
-                      updatedEmails[index] = e.target.value;
-                      setEmails(updatedEmails);
+                      const updatedEmails = [...dominios];
+                      updatedEmails[index] = { 
+                        id : (dominios.filter(d=>d.id === doms.id).length === 1) ? doms.id : null,  
+                        domino: e.target.value};
+                      setDominios(updatedEmails);
                     }}
                     margin="normal"
                   />
@@ -114,7 +121,7 @@ const EditInstituicaoDialog: React.FC<EditInstituicaoDialogProps> = ({
                     edge="end"
                     aria-label="remove-email"
                     onClick={() => handleRemoveEmail(index)}
-                    disabled={emails.length === 1}
+                    disabled={dominios.length === 1}
                   >
                     <RemoveIcon />
                   </IconButton>

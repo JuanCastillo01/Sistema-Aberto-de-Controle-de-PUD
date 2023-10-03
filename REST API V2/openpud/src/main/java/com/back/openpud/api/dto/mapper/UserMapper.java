@@ -1,4 +1,4 @@
-package com.back.openpud.core.mapper;
+package com.back.openpud.api.dto.mapper;
 
 import com.back.openpud.api.dto.SignUpDto;
 import com.back.openpud.api.dto.UserDto;
