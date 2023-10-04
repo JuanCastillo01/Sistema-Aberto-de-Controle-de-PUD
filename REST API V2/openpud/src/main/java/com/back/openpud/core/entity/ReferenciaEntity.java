@@ -15,6 +15,7 @@ import lombok.NoArgsConstructor;
 public class ReferenciaEntity {
     @Id
     @Column(name = "ID")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
 
     @Column(name = "TP_FORMATO", nullable = false)

@@ -34,6 +34,11 @@ public class ReferenciaController {
                                 service.salvarReference(
                                         mapper.toEntity(request))));
     }
+    @PostMapping("/inserir/mock")
+    public void addReferenciaMock(){
+        service.salvarReferenciasMock();
+    }
+
     @DeleteMapping("/delete/{id}")
     public void deleteRefrencia(@PathVariable Long id){
         service.deleteReference(id);

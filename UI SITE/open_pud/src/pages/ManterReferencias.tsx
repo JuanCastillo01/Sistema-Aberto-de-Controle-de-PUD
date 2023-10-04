@@ -1,13 +1,16 @@
-import React, { useLayoutEffect } from 'react';
+import React, { useEffect, useLayoutEffect } from 'react';
 import { useGetAllReferencias } from '../api/Refrencias/useGetAllReferencias';
+import gerarReferenciaABNT from '../tipagem/IRefencias';
+import { useAddReferencias } from '../api/Refrencias/useAddReferencias';
 
 const ManterReferencias: React.FC = () => {
   const useGetAll = useGetAllReferencias()
-  useLayoutEffect(()=>{useGetAll.recuperarReferencias()},[])
+  const useAdd = useAddReferencias()
+  
+  
   return (
     <div>
       <h2>Criação de PUD</h2>
-      <p>This is a mock component for ManterReferencias.</p>
     </div>
   );
 };
