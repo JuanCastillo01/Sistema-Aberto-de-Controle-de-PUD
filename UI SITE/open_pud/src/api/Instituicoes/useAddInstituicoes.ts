@@ -1,10 +1,10 @@
 import { useState } from "react";
-import { request } from "./axiosHelper";
-import { IInstituicoes } from "../tipagem/IInstituicoes";
-import { IErro } from "../tipagem/IGeral";
-import { erroInitialState } from "../constantes/constantesGerais";
+import { request } from "../axiosHelper";
+import { IInstituicoes } from "../../tipagem/IInstituicoes";
+import { IErro } from "../../tipagem/IGeral";
+import { erroInitialState } from "../../constantes/constantesGerais";
 
-export function useAddInstituicoes(){
+export const useAddInstituicoes = () =>{
     const PATH_ADICIONAR  = "/instituicoes/adicionar"
     const [data, setData] = useState<IInstituicoes>();
     const [loading, setLoading] = useState<boolean>(false);

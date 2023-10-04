@@ -1,12 +1,11 @@
-import { useState } from "react";
-import { request } from "./axiosHelper";
-import { IInstituicoes } from "../tipagem/IInstituicoes";
-import { IErro } from "../tipagem/IGeral";
-import { erroInitialState } from "../constantes/constantesGerais";
+import { useState, SetStateAction } from "react";
+import { erroInitialState } from "../../constantes/constantesGerais";
+import { IErro } from "../../tipagem/IGeral";
+import { IInstituicoes } from "../../tipagem/IInstituicoes";
+import { request } from "../axiosHelper";
 
 export function useGetAllInstituicoes(){
     const PATH_BUSCAR_TODAS = "/instituicoes"
-    const PATH_ADICIONAR  = "/instituicoes/adicionar"
     const [data, setData] = useState<IInstituicoes[]>([]);
     const [loading, setLoading] = useState<boolean>(false);
     const [error, setError] = useState<IErro>(erroInitialState);
@@ -18,9 +17,9 @@ export function useGetAllInstituicoes(){
             "GET",
             PATH_BUSCAR_TODAS,
             {}
-        ).then((res)=>{
+        ).then((res: { data: { content: SetStateAction<IInstituicoes[]>; }; })=>{
             setData(res.data.content)
-        }).catch((erro)=>{
+        }).catch((erro: any)=>{
             setError(erro)
         }).finally(()=>{
             setLoading(false)

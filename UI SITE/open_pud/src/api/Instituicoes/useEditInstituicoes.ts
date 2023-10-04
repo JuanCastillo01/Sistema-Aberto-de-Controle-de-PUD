@@ -1,8 +1,8 @@
 import { useState } from "react";
-import { request } from "./axiosHelper";
-import { IInstituicoes } from "../tipagem/IInstituicoes";
-import { IErro } from "../tipagem/IGeral";
-import { erroInitialState } from "../constantes/constantesGerais";
+import { request } from "../axiosHelper";
+import { erroInitialState } from "../../constantes/constantesGerais";
+import { IErro } from "../../tipagem/IGeral";
+import { IInstituicoes } from "../../tipagem/IInstituicoes";
 
 export function useEditInstituicoes(){
     const PATH_EDITAR  = "/instituicoes/editar"

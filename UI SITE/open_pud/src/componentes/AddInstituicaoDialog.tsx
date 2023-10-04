@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Dialog, DialogTitle, DialogContent, DialogActions, Button, TextField, Grid } from '@mui/material';
 import { IInstituicoes } from '../tipagem/IInstituicoes';
-import { useAddInstituicoes } from '../api/useAddInstituicoes';
+import { useAddInstituicoes } from '../api/Instituicoes/useAddInstituicoes';
 
 interface AddInstituicaoDialogProps {
     open: boolean;

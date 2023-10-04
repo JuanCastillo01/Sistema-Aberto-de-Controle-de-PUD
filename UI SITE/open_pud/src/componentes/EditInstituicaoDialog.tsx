@@ -12,8 +12,8 @@ import {
 import { IDominios, IInstituicoes } from '../tipagem/IInstituicoes';
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
-import { useEditInstituicoes } from '../api/useEditInstituicoes';
 import { Console } from 'console';
+import { useEditInstituicoes } from '../api/Instituicoes/useEditInstituicoes';
 
 const isValidEmail = (email: string): boolean => {
   const emailRegex = /@[^\s@]+\.[^\s@]+$/;

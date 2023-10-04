@@ -1,15 +1,13 @@
 import React, { useState } from 'react';
 import { IconButton, Button, createTheme, ThemeProvider, InputAdornment, TextField } from '@mui/material';
 import MUIDataTable, { MUIDataTableOptions, MUIDataTableColumn } from "mui-datatables";
-import { useGetAllInstituicoes } from "../api/useGetAllInstituicoes";
-import { refreshToken } from "../api/axiosHelper";
 import EditIcon from '@mui/icons-material/Edit';
 import AddInstituicaoDialog from './AddInstituicaoDialog';
 import { IInstituicoes } from '../tipagem/IInstituicoes';
 import EditInstituicaoDialog from './EditInstituicaoDialog';
 import { Search } from '@mui/icons-material';
-import { tabelaOptions, useStylesSearchField } from './styles/TabelaBasicaInstituicoesStyle';
-import { useAddInstituicoes } from '../api/useAddInstituicoes';
+import { tabelaOptions, useStylesSearchField } from './styles/TabelaBasicaStyle';
+import { useGetAllInstituicoes } from '../api/Instituicoes/useGetAllInstituicoes';
 
 const getMuiTheme = () =>
   createTheme(tabelaOptions);
