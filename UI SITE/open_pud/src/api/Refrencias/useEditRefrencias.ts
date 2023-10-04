@@ -1,23 +1,21 @@
 import { useState } from "react";
-import { erroInitialState } from "../../constantes/constantesGerais";
 import { IErro } from "../../tipagem/IGeral";
+import { erroInitialState } from "../../constantes/constantesGerais";
 import { IRefencias } from "../../tipagem/IRefencias";
 import { request } from "../axiosHelper";
 
-export const useAddReferencias = () => {
-    const PATH_ADICIONAR_MOCK = "/referencias/inserir/mock"
-    const PATH_ADICIONAR = "/referencias/inserir"
-
+export const useEditRefrencias = () => {
+    const PATH_EDITAR = "/referencias/editar"
     const [data, setData] = useState<IRefencias>();
     const [loading, setLoading] = useState<boolean>(false);
     const [error, setError] = useState<IErro>(erroInitialState);
 
-    const addReferencias = async (referencia: IRefencias) => {
+    const editReferencias = async (referencia: IRefencias) => {
         setLoading(true)
         
         request(
-            "POST",
-            PATH_ADICIONAR,
+            "PUT",
+            PATH_EDITAR,
             referencia
         ).then((res)=>{
             setData(res.data.content)
@@ -28,6 +26,5 @@ export const useAddReferencias = () => {
         })
 
     }    
-    return {data, loading, error, addReferencias}
-
+    return {data, loading, error, editReferencias}
 }

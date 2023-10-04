@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ReferenciaRequestDTO {
+    private Long id;
     private String tipo;
     private String citacaoABNT;
     private String titulo;

@@ -12,6 +12,8 @@ public interface ReferenciaService {
 
     public List<ReferenciaEntity> getAllReference();
 
+    public ReferenciaEntity editarReferencia(ReferenciaEntity entidade);
+
     public void salvarReferenciasMock();
 
 }

@@ -1,17 +1,17 @@
 import Typography from "@mui/material/Typography/Typography";
 
 export interface IRefencias{
+    id: number | null,
     tipo: string;
-    citacaoABNT: string;
     titulo: string;
-    subtitulo: string;
-    edicao: string;
+    subtitulo: string | null;
+    edicao: string | null;
     local: string;
     anoPublicado: string;
     editora: string;
     autoria: string;
   }
-
+  const listaTestes :IRefencias[] = []
   
 const formatarAutoria = (autoria: string): string => {
   const partesNome = autoria.split(' ');
@@ -25,7 +25,7 @@ const gerarReferenciaABNT = (referencia: IRefencias): JSX.Element => {
   return (
     <Typography variant="body1">
       <Typography component="span" variant="body1">
-        {formatarAutoria(referencia.autoria)}
+        {formatarAutoria(referencia.autoria)  }
       </Typography>
       <Typography component="span" variant="body1">
         {'. '}

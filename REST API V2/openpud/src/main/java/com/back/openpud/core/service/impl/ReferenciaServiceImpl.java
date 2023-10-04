@@ -3,12 +3,9 @@ package com.back.openpud.core.service.impl;
 import com.back.openpud.core.entity.ReferenciaEntity;
 import com.back.openpud.core.repository.ReferenciaRepository;
 import com.back.openpud.core.service.ReferenciaService;
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -42,6 +39,15 @@ public class ReferenciaServiceImpl implements ReferenciaService {
     public List<ReferenciaEntity> getAllReference() {
         return repository.findAll();
     }
+
+    @Override
+    public ReferenciaEntity editarReferencia(ReferenciaEntity entidade){
+        if (repository.existsById(entidade.getId())){
+            return repository.save(entidade);
+        }
+        throw new RuntimeException("Refrencia a ser editarada não encontrada");
+    }
+
     @Override
     public void salvarReferenciasMock() {
         for (int i = 1; i <= 10; i++) {
