@@ -7,7 +7,8 @@ import org.springframework.data.domain.Page;
 import java.util.List;
 
 public interface InstituicaoService {
-    public InstituicaoEntity regsitarNova(InstituicaoEntity instituicao);
     public Page<InstituicaoEntity> listarTodasInstituicoes();
     public InstituicaoEntity criarNovaInstituicao(InstituicaoEntity entity);
+
+    public InstituicaoEntity editarInstituicao(InstituicaoEntity instituicao);
 }
