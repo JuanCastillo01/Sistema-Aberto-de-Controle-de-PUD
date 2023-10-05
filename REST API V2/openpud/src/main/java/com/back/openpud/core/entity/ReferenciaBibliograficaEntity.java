@@ -23,7 +23,7 @@ public class ReferenciaBibliograficaEntity {
 
     @ManyToOne
     @JoinColumn(name = "id_infoReferencia")
-    private ReferenciasEntity infoReferencia;
+    private ReferenciaEntity infoReferencia;
 
     @ManyToOne
     private PudEntity pud;

@@ -1,11 +1,14 @@
 package com.back.openpud.core.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
 import java.util.Set;
 
 @Data
@@ -26,12 +29,15 @@ public class InstituicaoEntity {
     @Column(name = "NM_INSTITUCAO")
     private String nomeInstituicao;
 
-    @Column(name = "CAMINHO_EMAIL")
-    private String caminhoEmail;
+
+    @OneToMany(mappedBy = "instituicao", cascade = CascadeType.ALL)
+    @JsonIgnoreProperties("instituicao")  // This annotation prevents serialization of the related property
+    private List<DominiosAcademicosEntity> dominiosAcademicos;
 
     @OneToMany(mappedBy = "instituicao")
-    private Set<MatrizesEntity> matrizes;
+    private List<MatrizesEntity> matrizes;
+
 
     @OneToMany(mappedBy = "instituicao")
-    private Set<UserEntity> usuarios;
+    private List<UserEntity> usuarios;
 }

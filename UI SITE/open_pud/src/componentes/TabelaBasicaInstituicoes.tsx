@@ -1,16 +1,62 @@
-import MUIDataTable,{MUIDataTableOptions,MUIDataTableColumn } from "mui-datatables";
-import { useGetAllInstituicoes } from "../api/useGetAllInstituicoes";
-import { useLayoutEffect } from "react";
-import React from "react";
-import { refreshToken } from "../api/axiosHelper";
+import React, { useState } from 'react';
+import { IconButton, Button, createTheme, ThemeProvider, InputAdornment, TextField } from '@mui/material';
+import MUIDataTable, { MUIDataTableOptions, MUIDataTableColumn } from "mui-datatables";
+import EditIcon from '@mui/icons-material/Edit';
+import AddInstituicaoDialog from './AddInstituicaoDialog';
+import { IInstituicoes } from '../tipagem/IInstituicoes';
+import EditInstituicaoDialog from './EditInstituicaoDialog';
+import { Search } from '@mui/icons-material';
+import { tabelaOptions, useStylesSearchField } from './styles/TabelaBasicaStyle';
+import { useGetAllInstituicoes } from '../api/Instituicoes/useGetAllInstituicoes';
 
+const getMuiTheme = () =>
+  createTheme(tabelaOptions);
 const TabelaBasicaInstituicoes = () => {
-  const {data, loading, error, recuperarInstituicoes, adicionarInstituicoes}  = useGetAllInstituicoes()
-  const columns : MUIDataTableColumn[] = [
+  const getAll = useGetAllInstituicoes();
+
+  const [tabela,setTabela] = React.useState<any[]>([]) 
+
+  const [openModal, setOpenModal] = useState(false);
+  const [openEditModal, setOpenEditModal] = useState(false);
+  const [selectedInstituicao, setSelectedInstituicao] = useState<IInstituicoes>();
+
+  const estilos = useStylesSearchField();
+
+  const handleOpenEditModal = (instituicao: IInstituicoes) => {
+
+    setSelectedInstituicao(instituicao);
+    setOpenEditModal(true);
+  };
+
+  const handleCloseEditModal = () => {
+    setOpenEditModal(false);
+
+  };
+
+  const handleOpenModal = () => {
+    setOpenModal(true);
+  };
+
+  const handleCloseModal = () => {
+    setOpenModal(false);
+  };
+
+  const handleAddInstituicao = (instituicao: IInstituicoes) => {    
+    console.log('Adding institution:', instituicao);
+  };
+
+  const columns: MUIDataTableColumn[] = [
     {
+      name: 'id',
+      label: 'Chave',
+      options:{
+        display:'excluded'
+      }
+
+    },{
       name: 'abrev',
       label: 'Abreviação',
-      
+
     },
     {
       name: 'nomeCompleto',
@@ -24,45 +70,125 @@ const TabelaBasicaInstituicoes = () => {
     {
       name: 'email',
       label: 'Email',
-    },
-    {
-      name: 'numeroUsuarios',
-      label: 'Nº Usuarios',
+      options: {
+        
+      }
     },
     {
       name: 'acoes',
       label: 'Ações',
+      options: {
+        customBodyRender: (value, tableMeta) => {
+          return (
+            <IconButton
+              size="medium"
+              color="primary"
+              key={`edit-button-${tableMeta.rowIndex}`}
+              onClick={() => handleOpenEditModal(getAll.data.filter(intTemp => intTemp.id === tabela[tableMeta.rowIndex][0])[0])}
+            >
+              <EditIcon />
+            </IconButton>
+          );
+        }
+      },
+    }
+  ];
+
+  const options: MUIDataTableOptions = {
+    textLabels:{
+      body:{ 
+        noMatch: "Não há instituições",
+      },
+      filter: {
+        all: "Sem filtro",
+        reset: "Limpar",
+        title: "Coluna"
+      },
+      pagination:{
+        rowsPerPage: "Instiuições por paginas",
+        next: "Proxima",
+      }
+    },  
+    selectableRows: 'none',
+    download: false,
+    viewColumns: false,
+    print: false,
+    searchAlwaysOpen: true,
+    filter:false,
+    customToolbar: () => {
+      return (<Button sx={{ padding: "8" }} variant="contained" onClick={handleOpenModal}>
+        Adicionar
+      </Button>)
     },
-  ];
+    customSearchRender: (searchText, handleSearch, hideSearch, options) => {
+      return (<>
+        <TextField
+          className={estilos.searchField}
+          size='small'
+          fullWidth
+          variant="outlined"
+          InputProps={{
+            startAdornment: (
+              <InputAdornment position="start">
+                <IconButton>
+                  <Search style={{ color: 'white' }} />
+                </IconButton>
+              </InputAdornment>
+            ),
+            endAdornment: (
+              <InputAdornment position="end">
+                <IconButton
+                  edge="end"
+                  onClick={() => handleSearch(searchText)}
+                  aria-label="search"
+                >
+                  <Search style={{ color: 'white' }}/>
+                </IconButton>
+              </InputAdornment>
+            ),
+          }}
+          onChange={(e) => handleSearch(e.target.value)}
+          placeholder="Pesquisar"
+          value={searchText}
+        />
 
-  const dataMock = [
-    ['IFCE', 'Instituto Federal de Educação, Ciência e Tecnologia do Ceará', 'Campus Maracanau', 'Insittto tecnico', '@aluno.ifce.edu.br\n@professor.ifce.edu.br', '1' ],
-    ['IFCE', 'Instituto Federal de Educação, Ciência e Tecnologia do Ceará', 'Campus Fortaleza', 'Insituto tecnico', '@aluno.ifce.edu.br\n@professor.ifce.edu.br', '1' ],
-    ['UFC', 'Universidade Federal do Ceará', 'Campus Fortaleza', 'Ensino Superior', '@aluno.ufc.edu.br\n@professor.ufc.edu.br', '1' ],
-    ['UECE', 'Universidade Estadual do Ceará', 'Campus Itaperi', 'Ensino Superior', '@aluno.ufc.edu.br\n@professor.uece.edu.br', '1' ],
+      </>)
+    },
+    
 
 
-    // Add more rows as needed
-  ];
-
-  const options : MUIDataTableOptions  = {
-    selectableRows: 'none', // or 'multiple' if you want to enable row selection
   };
-  React.useLayoutEffect(()=>{
-    recuperarInstituicoes()
-    refreshToken()
-  },[])
+  React.useLayoutEffect(() => {
+    getAll.recuperarInstituicoes()
+  }, [])
+
+  React.useEffect(() => {
+    if(!getAll.loading){
+      setTabela(getAll.data.map((e:IInstituicoes) => [e.id,e.siglaInstituicao, e.nomeInstituicao, "Detalhe", (e.dominiosAcademicos.length === 0) ? "vazio" : e.dominiosAcademicos.map(caminho=>`${caminho.domino} \n`)]))
+    }
+  },[getAll.data])
 
   return (
-    <MUIDataTable
-      title={'Exemplo de DataTable'}
-      data={data.map((item)=>[item.siglaInstituicao,item.nomeInstituicao,"Detalhes/observações", item.caminhoEmail, ])}
-      columns={columns}
-      options={options}
-    />
+    <>
+      <ThemeProvider theme={getMuiTheme()}>
+
+        <MUIDataTable
+          title={'INSTITUIÇÕES'}
+          data={tabela}
+          columns={columns}
+          options={options}
+        />
+      </ThemeProvider>
+      <AddInstituicaoDialog open={openModal} onClose={handleCloseModal} onAdd={handleAddInstituicao} />
+      {selectedInstituicao && (
+        <EditInstituicaoDialog
+          open={openEditModal}
+          onClose={handleCloseEditModal}
+          instituicao={selectedInstituicao}
+        />
+      )}
+    </>
   );
 };
 
 export default TabelaBasicaInstituicoes;
-
-
