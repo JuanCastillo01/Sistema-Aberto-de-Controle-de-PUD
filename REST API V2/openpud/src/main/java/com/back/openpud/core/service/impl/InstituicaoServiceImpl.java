@@ -11,53 +11,32 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
-@RequiredArgsConstructor
+
 @Service
 public class InstituicaoServiceImpl implements InstituicaoService {
-    private static final String[] UNIVERSIDADES = {"UFC", "USP", "UNB", "UFMG", "UFRJ", "UFT"};
-    private static final String[] PALAVRAS = {"Instituto", "Universidade", "Centro", "Escola", "Faculdade", "Colégio"};
+
     @Autowired
-    private  InstituicaoRepository repositorio;
-
-
-    public InstituicaoEntity regsitarNova(InstituicaoEntity instituicao) {
-
-        return repositorio.save(instituicao);
-    }
+    private InstituicaoRepository repositorio;
 
     @Override
     public Page<InstituicaoEntity> listarTodasInstituicoes() {
-        var listaint = repositorio.findAll();
-        return new PageImpl<>(listaint);
+        var lista =  repositorio.findAll();
+
+        return new PageImpl<>(lista);
     }
-
     @Override
-    public List<InstituicaoEntity> mock10Casos() {
+    public InstituicaoEntity criarNovaInstituicao(InstituicaoEntity entity) {
+        entity.getDominiosAcademicos().forEach(we->{we.setInstituicao(entity);});
+        var instituicaoSalva = repositorio.save(entity);
+        return instituicaoSalva;
+    }
+    public InstituicaoEntity editarInstituicao(InstituicaoEntity instituicao) {
 
-        List<InstituicaoEntity> casosExemplo = new ArrayList<>();
-
-        Random random = new Random();
-
-        for (int i = 1; i <= 10; i++) {
-            InstituicaoEntity InstituicaoEntity = new InstituicaoEntity();
-            InstituicaoEntity.setId((long) i);
-
-            // Gera uma sigla de universidade aleatória
-            String siglaUniversidade = UNIVERSIDADES[random.nextInt(UNIVERSIDADES.length)];
-            InstituicaoEntity.setSiglaInstituicao(siglaUniversidade);
-
-            // Gera um nome de instituição aleatório
-            String nomeInstituicaoEntity = PALAVRAS[random.nextInt(PALAVRAS.length)] + " " + PALAVRAS[random.nextInt(PALAVRAS.length)];
-            InstituicaoEntity.setNomeInstituicao(nomeInstituicaoEntity);
-
-            // Gera um caminho de e-mail baseado na sigla da universidade
-            String caminhoEmail = siglaUniversidade.toLowerCase() + "@example.com";
-            InstituicaoEntity.setCaminhoEmail(caminhoEmail);
-
-            casosExemplo.add(InstituicaoEntity);
+        if(repositorio.existsById(instituicao.getId())){
+            return repositorio.save(instituicao);
         }
 
-        return repositorio.saveAll(casosExemplo);
+        throw new RuntimeException("Não foi encontrada a instituição na base");
     }
+
 }

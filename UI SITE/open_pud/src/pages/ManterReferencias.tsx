@@ -1,3 +1,4 @@
+
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Box from '@mui/material/Box';
@@ -12,11 +13,6 @@ import { useState } from 'react';
 const useStyles: any = makeStyles({});
 
 const ManterReferencias: React.FC = () => {
-
-  // const useGetAll = useGetAllReferencias()
-  // const useAdd = useAddReferencias()
-  //const useEdit = useEditRefrencias()
-
   const classes = useStyles();
 
   const [primaryValue, setPrimaryValue] = useState(0);
@@ -93,6 +89,7 @@ const TabPanel: React.FC<TabPanelProps> = ({ children, value, index }) => {
 
     >
       {value === index && <Box p={3}>{children}</Box>}
+
     </div>
   );
 };
