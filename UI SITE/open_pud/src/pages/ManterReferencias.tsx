@@ -1,4 +1,3 @@
-import React, { useState } from 'react';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Box from '@mui/material/Box';
@@ -7,11 +6,16 @@ import { Container, ToggleButton, ToggleButtonGroup, Typography } from '@mui/mat
 import MUIDataTable from 'mui-datatables';
 import AddReferencias from '../componentes/AddReferencias';
 import { makeStyles } from '@mui/styles';
+import { useState } from 'react';
 
 
 const useStyles: any = makeStyles({});
 
 const ManterReferencias: React.FC = () => {
+
+  // const useGetAll = useGetAllReferencias()
+  // const useAdd = useAddReferencias()
+  //const useEdit = useEditRefrencias()
 
   const classes = useStyles();
 
@@ -25,7 +29,6 @@ const ManterReferencias: React.FC = () => {
   const secondaryTabsHandleChange = (event: any, newValue: number) => {
     setSecondaryValue(newValue);
   };
-
 
   return (
     <>
