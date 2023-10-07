@@ -12,3 +12,4 @@ export interface IDominios{
     id: number | null;
     domino: string;
 }
+

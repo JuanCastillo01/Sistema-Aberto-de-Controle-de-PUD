@@ -16,6 +16,7 @@ import ManterUsuarios from "../pages/ManterUsuarios";
 import { IModule } from "../tipagem/IModule";
 import SelecaoUsuario from "../pages/SelecaoUsuario";
 import { IErro } from "../tipagem/IGeral";
+import PaginaInicial from "../pages/PaginaInicial";
 
 export const systemModules : IModule[] = [
     {
@@ -27,7 +28,7 @@ export const systemModules : IModule[] = [
     },
     {
       name: "Principal",
-      path: "/",
+      path: "/principal",
       icone: <HomeOutlined  fontSize="large"/>,
       element: <HomePage/>,
       permissonType: "generico"
@@ -75,6 +76,13 @@ export const systemModules : IModule[] = [
       permissonType: "generico"
     }
 ] 
+
+export const startPage = {
+  name:"Inicial",
+  path:"",
+  element:<PaginaInicial/>
+}
+
 export const erroInitialState : IErro = {
   erro: false,
   mensagem: ""

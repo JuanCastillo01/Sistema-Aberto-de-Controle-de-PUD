@@ -42,13 +42,7 @@ public class UserServiceImpl implements UserService {
         if (optionalUser.isPresent()) {
             throw new AppException("Login already exists", HttpStatus.BAD_REQUEST);
         }
-
-        UserEntity user = UserEntity
-                .builder()
-                .nomeUsuario(userDto.getNomeUsuario())
-                .email(userDto.getEmail())
-                .login(userDto.getLogin())
-                .build();
+        var user = userMapper.toEntity(userDto);
         user.setPassword(passwordEncoder.encode(CharBuffer.wrap(userDto.getPassword())));
 
         UserEntity savedUser = userRepository.save(user);

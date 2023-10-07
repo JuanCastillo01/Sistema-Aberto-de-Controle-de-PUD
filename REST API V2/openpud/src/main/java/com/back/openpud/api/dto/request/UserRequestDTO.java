@@ -1,6 +1,6 @@
-package com.back.openpud.api.dto;
+package com.back.openpud.api.dto.request;
 
-import com.back.openpud.api.dto.request.InstituicaoRequestDTO;
+import com.back.openpud.api.dto.response.JwtResponse;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -10,11 +10,13 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class SignUpDto {
+public class UserRequestDTO {
+    private Long id;
     private String nomeUsuario;
     private String login;
-    private String email;
     private String password;
-    private InstituicaoRequestDTO instituicao;
+    private String email;
+    private String permissao;
+    private JwtResponse token;
 
 }

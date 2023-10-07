@@ -1,12 +1,14 @@
 import { IUserLoginRequest, IUserSigninRequest } from "../tipagem/IUser";
+import { InstitutoInitialState } from "./CInstituicoes";
 
 export const userLoginInitial : IUserLoginRequest = {
     login: "",
     password: ""
 }
 export const RequestInitialState : IUserSigninRequest= {
-    nomeUsuario: "",
     login: "",
     email: "",
-    password: ""
-  }
+    password: "",
+    instituicao: InstitutoInitialState,
+    dominio: ""
+}

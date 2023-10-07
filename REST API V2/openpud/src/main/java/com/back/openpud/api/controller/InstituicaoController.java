@@ -18,6 +18,8 @@ public class InstituicaoController {
 
     private final InstituicaoMapper mapper;
 
+
+
     @GetMapping("/instituicoes")
     public ResponseEntity<Page<InstituicaoEntity>> visualizarCasos(){
         return ResponseEntity.ok(service.listarTodasInstituicoes());

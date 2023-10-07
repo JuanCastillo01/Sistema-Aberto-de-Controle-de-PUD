@@ -5,10 +5,8 @@ import Paper from '@mui/material/Paper';
 import SignIn from '../componentes/Signin';
 import LogIn from '../componentes/Login';
 import Box from '@mui/material/Box';
-import { useNavigate } from 'react-router-dom';
 
-const SelecaoUsuario: React.FC = () => {
-
+const PaginaInicial: React.FC = () => {
   const [abaAberta, setAba] = useState(0);
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
@@ -16,8 +14,15 @@ const SelecaoUsuario: React.FC = () => {
   };
 
   return (
-    <Box display="flex" flexDirection="column" alignItems="center" marginTop={1}>
-      <Paper elevation={3} style={{ width: '100%', padding: '60px', margin: '60px', backgroundColor: '#f5f5f5' }}>
+    <main style={{
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center',
+        minHeight: '100vh'
+    
+      }}>
+      <Paper elevation={3} style={{ width: '80%', padding: '30px', backgroundColor: '#f5f5f5' }}>
         <Tabs
           value={abaAberta}
           onChange={handleChange}
@@ -30,18 +35,19 @@ const SelecaoUsuario: React.FC = () => {
           <Tab label="Entrar" style={{ fontSize: '2rem' }} />
         </Tabs>
         {abaAberta === 0 && (
-          <Box marginTop={2}>
+          <Box marginTop={1}>
             <SignIn />
           </Box>
         )}
         {abaAberta === 1 && (
-          <Box marginTop={2}>
+          <Box marginTop={1}>
             <LogIn />
           </Box>
         )}
       </Paper>
-    </Box>
+    </main>
   );
 };
 
-export default SelecaoUsuario;
+export default PaginaInicial;
+    

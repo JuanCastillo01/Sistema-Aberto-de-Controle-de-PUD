@@ -1,11 +1,16 @@
+import { Search } from '@mui/icons-material';
+import { Button, TextField, InputAdornment, IconButton } from '@mui/material';
+import MUIDataTable, { MUIDataTableOptions } from 'mui-datatables';
 import React from 'react';
+import { useStylesSearchField } from '../componentes/styles/TabelaBasicaStyle';
+import { TabelaBasicaUsuarios } from '../componentes/TabelaBasicaUsuarios';
+
 
 const ManterUsuarios: React.FC = () => {
-  return (
-    <div>
-      <h2>Criação de PUD</h2>
-      <p>This is a mock component for ManterUsuarios.</p>
-    </div>
+  
+  return (<>
+    <TabelaBasicaUsuarios/>
+  </>
   );
 };
 

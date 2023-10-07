@@ -1,7 +1,7 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes} from 'react-router-dom';
 import PageLayout from './pages/PageLayout';
-import { systemModules } from './constantes/constantesGerais';
+import { startPage, systemModules } from './constantes/constantesGerais';
 
 
 
@@ -16,6 +16,7 @@ const App: React.FC = () => {
   return (
     <Router>
             <Routes>
+              <Route path={startPage.path} element={startPage.element}></Route>
               {generateRoutes()}
             </Routes>
     </Router>

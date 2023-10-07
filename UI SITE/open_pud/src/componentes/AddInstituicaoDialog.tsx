@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Dialog, DialogTitle, DialogContent, DialogActions, Button, TextField, Grid } from '@mui/material';
 import { IInstituicoes } from '../tipagem/IInstituicoes';
 import { useAddInstituicoes } from '../api/Instituicoes/useAddInstituicoes';
+import { isDomainvalid } from '../funcs/Regex';
 
 interface AddInstituicaoDialogProps {
     open: boolean;
@@ -19,11 +20,6 @@ const initialInsititucaoDialogState :IInstituicoes={
     }],
 }
 
-const emailPathRegex: RegExp = /@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-
-const isEmailValid = (email: string): boolean => {
-  return emailPathRegex.test(email);
-};
 const AddInstituicaoDialog: React.FC<AddInstituicaoDialogProps> = ({ open, onClose, onAdd }) => {
     const postOne = useAddInstituicoes();
 
@@ -120,7 +116,7 @@ const AddInstituicaoDialog: React.FC<AddInstituicaoDialogProps> = ({ open, onClo
                             variant="outlined"
                             onClick={handleAddCaminhoEmail}
                             color="primary"
-                            disabled={instituicao.dominiosAcademicos.length ===  0 || !emailPathRegex.test(instituicao.dominiosAcademicos[instituicao.dominiosAcademicos.length - 1].domino.trim())}
+                            disabled={instituicao.dominiosAcademicos.length ===  0 || !isDomainvalid(instituicao.dominiosAcademicos[instituicao.dominiosAcademicos.length - 1].domino.trim())}
                         >
                             Adicionar Caminho do Email  
                         </Button>

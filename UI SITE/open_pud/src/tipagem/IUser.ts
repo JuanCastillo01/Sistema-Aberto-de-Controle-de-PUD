@@ -1,23 +1,26 @@
+import { IInstituicoes } from "./IInstituicoes"
+
 export interface IUserSigninRequest {
-    nomeUsuario :  String,
-    login  : String,
-    email  : String,
-    password : String,
+    login  : string,
+    email  : string,
+    password : string,
+    instituicao: IInstituicoes
+    dominio:string
 }
 
 
 export interface IUserLoginRequest {
-    login  : String,
-    password : String,
+    login  : string,
+    password : string,
 }
 
 
 export interface IUserResponse {
-    nomeUsuario :  String,
-    login  : String,
-    email  : String,
+    nomeUsuario :  string,
+    login  : string,
+    email  : string,
     permissao :string,
-    password : String,
+    password : string,
 }
 
 export interface IToken {

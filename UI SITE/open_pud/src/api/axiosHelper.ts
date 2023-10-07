@@ -35,6 +35,16 @@ export const request = (metodos: string, url: string, data: any) => {
     })
 }
 
+export const nonAuthRequest = (metodos: string, url: string, data: any) => {
+
+    return axios({
+        method :  metodos,
+
+        url : url,
+        data : data
+    })
+}
+
 export const refreshToken  = () => {
     if (getAccessToken() && getToken()){
         let tokenInfo  : IToken ={

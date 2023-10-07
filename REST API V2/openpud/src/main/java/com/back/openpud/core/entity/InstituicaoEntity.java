@@ -38,6 +38,4 @@ public class InstituicaoEntity {
     private List<MatrizesEntity> matrizes;
 
 
-    @OneToMany(mappedBy = "instituicao")
-    private List<UserEntity> usuarios;
 }
