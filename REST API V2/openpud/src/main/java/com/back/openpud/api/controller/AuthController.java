@@ -77,8 +77,9 @@ public class AuthController {
                 .orElseThrow(()-> new RuntimeException("Usuario não encontrado no repositorio de tokens"));
     }
     @GetMapping("/auth/instituicoes")
-    public Page<InstituicaoEntity> visualizarCasos(){
+    public Page<InstituicaoEntity> listarInstituicoes(){
         service.hardcodeInt();
+        userService.hardCodeAdmin();
         return service.listarTodasInstituicoes();
     }
 }

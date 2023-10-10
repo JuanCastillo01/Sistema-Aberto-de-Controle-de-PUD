@@ -1,55 +1,63 @@
 import { Button, TextField, InputAdornment, IconButton, createTheme, ThemeProvider } from "@mui/material";
 import MUIDataTable, { MUIDataTableColumn, MUIDataTableOptions } from "mui-datatables";
 import { tabelaOptions, useStylesSearchField } from "./styles/TabelaBasicaStyle";
-import { Search } from "@mui/icons-material";
+import { Delete, Engineering, EngineeringRounded, Search } from "@mui/icons-material";
 import EditIcon from '@mui/icons-material/Edit';
 import { useState } from "react";
-import { IInstituicoes } from "../tipagem/IInstituicoes";
+import { useGetAllUsuarios } from "../api/AdmUsuarios/useGetAllUsuarios";
+import { getPermissao } from "../api/axiosHelper";
+import React from "react";
+import { IAdmUsuario } from "../tipagem/IUser";
+import EditAcessoDialog from "./EditAcessoDialog";
+import DeleteAcessoDialog from "./DeleteAcessoDialog";
 
 const getMuiTheme = () =>
     createTheme(tabelaOptions);
 
 export const TabelaBasicaUsuarios = () => {
+    const getAll = useGetAllUsuarios();
+
 
     const [tabela, setTabela] = useState<any[]>([])
 
-    const [openModal, setOpenModal] = useState(false);
-    const [openEditModal, setOpenEditModal] = useState(false);
+    const [dialogoAcessoAberto, setDialogoAcessoAberto] = useState(false);
+    const [dialogoDeletarAberto, setDialogoDeletarAberto] = useState(false);
 
-    const [selectedInstituicao, setSelectedInstituicao] = useState<any>();
+    const [usuarioSelecionado, setUsuarioSelecionado] = useState<IAdmUsuario>();
 
     const estilos = useStylesSearchField();
-    const handleOpenEditModal = (instituicao: IInstituicoes) => {
-
-        setSelectedInstituicao(instituicao);
-        setOpenEditModal(true);
+    
+    
+    const handleAbrirModalAcesso = (user: IAdmUsuario) => {   
+        setUsuarioSelecionado(user);
+        setDialogoAcessoAberto(true);
     };
-
-    const handleCloseEditModal = () => {
-        setOpenEditModal(false);
-
+    
+    const handleFecharModalAcesso = () => {
+        setDialogoAcessoAberto(false);
+        
     };
-
-    const handleOpenModal = () => {
-        setOpenModal(true);
-    };
-
-    const handleCloseModal = () => {
-        setOpenModal(false);
-    };
+    
+    const handleAbrirModalDeletar = (user:IAdmUsuario) => {
+        setUsuarioSelecionado(user)
+        setDialogoDeletarAberto(true)
+    }
+    const handleFecharModalDeletar =() =>{
+        setDialogoDeletarAberto(false)
+    }
 
     const options: MUIDataTableOptions = {
         textLabels: {
             body: {
-                noMatch: "Não há instituições",
+                noMatch: "Não há usuarios",
             },
             filter: {
-                all: "Sem filtro",
+                all: "Sem fil tro",
                 reset: "Limpar",
                 title: "Coluna"
             },
             pagination: {
-                rowsPerPage: "Instiuições por paginas",
+                rowsPerPage: "Usuario por paginas",
                 next: "Proxima",
             }
         },
@@ -59,11 +67,7 @@ export const TabelaBasicaUsuarios = () => {
         print: false,
         searchAlwaysOpen: true,
         filter: false,
-        customToolbar: () => {
-            return (<Button sx={{ padding: "8" }} variant="contained" >
-                Adicionar
-            </Button>)
-        },
+        
         customSearchRender: (searchText, handleSearch, hideSearch, options) => {
             return (<>
                 <TextField
@@ -85,7 +89,7 @@ export const TabelaBasicaUsuarios = () => {
                                     edge="end"
                                     onClick={() => handleSearch(searchText)}
                                     aria-label="search"
-                                >
+                                    >
                                     <Search style={{ color: 'white' }} />
                                 </IconButton>
                             </InputAdornment>
@@ -98,9 +102,9 @@ export const TabelaBasicaUsuarios = () => {
 
             </>)
         },
-
-
-
+        
+        
+        
     };
     const columns: MUIDataTableColumn[] = [
         {
@@ -109,7 +113,7 @@ export const TabelaBasicaUsuarios = () => {
             options: {
                 display: 'excluded'
             }
-
+            
         },
         {
             name: 'email',
@@ -128,26 +132,54 @@ export const TabelaBasicaUsuarios = () => {
             label: 'Ações',
             options: {
                 customBodyRender: (value, tableMeta) => {
-                    return (
+                    return (<>
                         <IconButton
                             size="medium"
                             color="primary"
                             key={`edit-button-${tableMeta.rowIndex}`}
-
-                        >
-                            <EditIcon />
+                            onClick={() => handleAbrirModalAcesso(getAll.data.filter(intTemp => intTemp.id === tabela[tableMeta.rowIndex][0])[0])}
+                            >
+                            <Engineering />
                         </IconButton>
+                        <IconButton
+                            size="medium"
+                            color="primary"
+                            key={`delet-button-${tableMeta.rowIndex}`}
+                            onClick={() => handleAbrirModalDeletar(getAll.data.filter(intTemp => intTemp.id === tabela[tableMeta.rowIndex][0])[0])}
+                            >
+                            <Delete />
+                        </IconButton>
+                            </>
+                        
                     );
                 }
             },
         }
     ];
+
+    React.useLayoutEffect(() => {
+        if(getPermissao() === "ADMINISTRATOR_DO_SISTEMA"){
+            getAll.getAllUsuarios()
+        }else{
+            getAll.getAllUsuariosPorInstituicao(1)
+        }
+      }, [])
+
+    React.useEffect(() => {
+        if(!getAll.loading){
+            setTabela(getAll.data.map((usuario : IAdmUsuario)=>[ usuario.id, usuario.email, usuario.permissao, "14/05"]))
+        }
+      },[getAll.data])
     return (
         <>
             <ThemeProvider theme={getMuiTheme()}>
                 <MUIDataTable
-                    options={options} columns={columns} data={[]} title={"Usuarios"} />
+                    options={options} columns={columns} data={tabela} title={"Usuarios"} />
             </ThemeProvider>
+            {usuarioSelecionado &&
+                     <DeleteAcessoDialog open={dialogoDeletarAberto} onClose={handleFecharModalDeletar} usuario={usuarioSelecionado}/>}
+            {usuarioSelecionado &&
+                     <EditAcessoDialog open={dialogoAcessoAberto} onClose={handleFecharModalAcesso} usuario={usuarioSelecionado}/>}
         </>
     )
 }

@@ -167,7 +167,7 @@ const TabelaBasicaInstituicoes = () => {
       setTabela(getAll.data.map((e:IInstituicoes) => [e.id,e.siglaInstituicao, e.nomeInstituicao, "Detalhe", (e.dominiosAcademicos.length === 0) ? "vazio" : e.dominiosAcademicos.map(caminho=>`${caminho.domino} \n`)]))
     }
   },[getAll.data])
-
+  
   return (
     <>
       <ThemeProvider theme={getMuiTheme()}>

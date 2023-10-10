@@ -7,6 +7,8 @@ import { useNavigate } from 'react-router-dom';
 import { ListItem, ListItemIcon } from '@mui/material';
 import { systemModules } from '../constantes/constantesGerais';
 import { styled } from '@mui/material/styles';
+import { filtraModulosPorPermissoes } from '../funcs/AnalisePermissoes';
+import { getPermissao } from '../api/axiosHelper';
 
 const StyledDrawer = styled(Drawer)(({ theme }) => ({
   '& .MuiDrawer-paper': {
@@ -20,11 +22,13 @@ const Menu: React.FC = () => {
   const navigate = useNavigate(); // Initialize the navigate function
 
   const handleItemClick = (path: string) => {
+    console.log(getPermissao())
     navigate(path); // Use the navigate function to change the route
   };
 
   const getLista = () => {
-    return systemModules.map((item, index) => (
+    
+    return filtraModulosPorPermissoes(systemModules).map((item, index) => (
       <ListItem 
         key={index}
         button

@@ -11,11 +11,19 @@ export const getAccessToken = () => {
 export const getToken = () => {
     return window.localStorage.getItem("token")
 }
+export const getPermissao = () => {
+    return window.localStorage.getItem("permisao")
+}
 
 export const setInfoToken = (token : IToken) => {
     window.localStorage.setItem("access_token", token.accessToken)
     window.localStorage.setItem("token", token.token)
 }
+
+export const setPermissao = (permissao:string) => {
+    return window.localStorage.setItem("permisao",permissao)
+}
+
 
 export const cleanToken  = () => {
     window.localStorage.setItem("access_token", "null")

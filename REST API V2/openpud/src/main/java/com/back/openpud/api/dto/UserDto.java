@@ -1,6 +1,7 @@
 package com.back.openpud.api.dto;
 
 import com.back.openpud.api.dto.response.JwtResponse;
+import com.back.openpud.core.entity.enums.PermissionType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -16,7 +17,7 @@ public class UserDto {
     private String login;
     private String password;
     private String email;
-    private String permissao;
+    private PermissionType  permissao;
     private JwtResponse token;
 
 }

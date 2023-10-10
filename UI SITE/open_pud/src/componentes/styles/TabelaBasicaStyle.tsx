@@ -7,15 +7,14 @@ export const tabelaOptions : ThemeOptions = {
         styleOverrides: {
           root: {
             padding: '8px',
-          fontSize: '16px', // Adjust the font size as needed
-          textAlign: 'center', // Center the text
-          },
+          },  
         },
       },
       MUIDataTableHeadCell: {
         styleOverrides: {
           root: {
             padding: '8px',
+
           },
         },
       },

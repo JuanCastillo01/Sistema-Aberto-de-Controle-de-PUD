@@ -1,15 +1,15 @@
 package com.back.openpud.core.service;
 
 import com.back.openpud.core.entity.UserEntity;
+import com.back.openpud.core.entity.enums.PermissionType;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 public interface UserAdmintrationService {
-    public List<UserEntity> listarUsuarios();
-    public List<UserEntity> listarUsuariosPorInstituicao(Long codigoInstitucao);
-    public UserEntity alterarPermissoes(Long id, String Permissão);
+    public Page<UserEntity> listarUsuarios();
+    public Page<UserEntity> listarUsuariosPorInstituicao(Long codigoInstitucao);
+    public UserEntity alterarUsuario(Long id,UserEntity entity);
 
-    public void deletarUsusario(UserEntity entidade);
+    public void deletarUsusario(Long id);
 }

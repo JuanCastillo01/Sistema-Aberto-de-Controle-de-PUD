@@ -1,7 +1,7 @@
 import React, { useEffect, useLayoutEffect, useState } from 'react';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
-import { cleanToken, request, setInfoToken } from '../api/axiosHelper';
+import { cleanToken, request, setInfoToken, setPermissao } from '../api/axiosHelper';
 import { IUserSigninRequest } from '../tipagem/IUser';
 import { RequestInitialState } from '../constantes/CUser';
 import { Box, Grid } from '@mui/material';
@@ -32,8 +32,7 @@ const SignIn: React.FC = () => {
       { ...formData,email:  formData.email + formData.dominio, "login": formData.email + formData.dominio}
     ).then((res) => {
       setInfoToken(res.data.token)
-      console.log(res.data)
-      window.sessionStorage.setItem("userInfo", res.data)
+      setPermissao(res.data.permissao)      
       nav("/principal")
     }
     ).catch((e) => console.log(e)
@@ -45,9 +44,6 @@ const SignIn: React.FC = () => {
     recuperarInstituicoesAuth()
   }, [])
 
-  useEffect(() => {
-    console.log(formData)
-  }, [formData])
 
   return (
     <Grid container justifyContent={'center'}>

@@ -16,14 +16,21 @@ export interface IUserLoginRequest {
 
 
 export interface IUserResponse {
-    nomeUsuario :  string,
     login  : string,
     email  : string,
     permissao :string,
     password : string,
+    
+}
+export interface IAdmUsuario {
+    id: number,
+    login  : string,
+    email  : string,
+    permissao :string,
 }
 
 export interface IToken {
     accessToken : string, 
     token: string
 }
+

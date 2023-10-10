@@ -31,6 +31,7 @@ const EditInstituicaoDialog: React.FC<EditInstituicaoDialogProps> = ({
   onClose,
   instituicao
 }) => {
+  
   const [editedInstituicao, setEditedInstituicao] = useState<IInstituicoes>(instituicao);
   const [dominios, setDominios] = useState<IDominios[]>(instituicao.dominiosAcademicos);
 

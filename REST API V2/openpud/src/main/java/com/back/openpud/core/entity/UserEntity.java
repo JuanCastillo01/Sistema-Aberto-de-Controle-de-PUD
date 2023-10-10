@@ -1,5 +1,6 @@
 package com.back.openpud.core.entity;
 
+import com.back.openpud.core.entity.enums.PermissionType;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -24,8 +25,9 @@ public class UserEntity {
     @Column(name = "EMAIL")
     private String email;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "PERMISSAO")
-    private String permissao;
+    private PermissionType permissao;
 
     @Column(name = "LOGIN")
     private String login;

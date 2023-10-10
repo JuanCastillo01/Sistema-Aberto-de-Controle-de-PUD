@@ -17,4 +17,7 @@ public interface UserService {
     UserDto register(SignUpDto user);
 
     Optional<UserEntity> findByLogin(String login);
+
+    public void hardCodeAdmin();
+
 }

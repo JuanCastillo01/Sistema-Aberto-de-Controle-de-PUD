@@ -1,4 +1,4 @@
-package com.back.openpud.api.dto.response;
+package com.back.openpud.api.dto.request;
 
 import com.back.openpud.core.entity.enums.PermissionType;
 import lombok.AllArgsConstructor;
@@ -10,12 +10,9 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserResponseDTO {
+public class UserAdministracaoRequestDTO {
     private Long id;
-
     private String login;
     private String email;
     private PermissionType permissao;
-    private JwtResponse token;
-
 }

@@ -1,14 +1,16 @@
 import React, { useState } from 'react';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
-import { Link, redirect } from 'react-router-dom';
-import { Grid, Paper, Box } from '@mui/material';
-import { IUserLoginRequest, IUserResponse, IUserSigninRequest } from '../tipagem/IUser';
+import { redirect, useNavigate } from 'react-router-dom';
+import { Grid, Box } from '@mui/material';
+import { IUserLoginRequest } from '../tipagem/IUser';
 import { userLoginInitial } from '../constantes/CUser';
-import { cleanToken, refreshToken, request, setInfoToken,  } from '../api/axiosHelper';
+import { cleanToken, request, setInfoToken, setPermissao } from '../api/axiosHelper';
 import { AxiosError } from 'axios';
 
 const LogIn: React.FC = () => {
+  const nav = useNavigate()
+
   const [formData, setFormData] = useState<IUserLoginRequest>(userLoginInitial);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -25,9 +27,10 @@ const LogIn: React.FC = () => {
       "/auth/login",
       formData
     ).then((res) => {
-      console.log(res.data)
       setInfoToken(res.data.token)
-      window.sessionStorage.setItem("userInfo", res.data)
+      setPermissao(res.data.permissao)      
+      nav("/principal")
+
     }).catch((err:AxiosError) => {
     }).finally((()=>redirect("/principal")))
   };
