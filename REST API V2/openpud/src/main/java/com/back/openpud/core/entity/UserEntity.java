@@ -19,9 +19,6 @@ public class UserEntity {
     @Column(name = "ID")
     private Long id;
 
-    @Column(name = "NOME_USUARIO")
-    private String nomeUsuario;
-
     @Column(name = "EMAIL")
     private String email;
 

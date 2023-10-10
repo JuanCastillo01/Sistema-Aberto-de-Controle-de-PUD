@@ -1,7 +1,7 @@
 import React, { useEffect, useLayoutEffect, useState } from 'react';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
-import { cleanToken, request, setInfoToken, setPermissao } from '../api/axiosHelper';
+import { cleanToken, request, setInfoToken, setUserinfo } from '../api/axiosHelper';
 import { IUserSigninRequest } from '../tipagem/IUser';
 import { RequestInitialState } from '../constantes/CUser';
 import { Box, Grid } from '@mui/material';
@@ -31,10 +31,10 @@ const SignIn: React.FC = () => {
       "/auth/register",
       { ...formData,email:  formData.email + formData.dominio, "login": formData.email + formData.dominio}
     ).then((res) => {
-      setInfoToken(res.data.token)
-      setPermissao(res.data.permissao)      
       nav("/principal")
-    }
+      setInfoToken(res.data.token)
+      setUserinfo(res.data)      
+    } 
     ).catch((e) => console.log(e)
     )
 

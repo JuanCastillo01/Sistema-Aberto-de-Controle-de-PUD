@@ -18,6 +18,8 @@ public interface UserService {
 
     Optional<UserEntity> findByLogin(String login);
 
+
+
     public void hardCodeAdmin();
 
 }

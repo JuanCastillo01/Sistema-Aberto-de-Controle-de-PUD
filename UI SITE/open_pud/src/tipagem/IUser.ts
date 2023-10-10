@@ -20,7 +20,7 @@ export interface IUserResponse {
     email  : string,
     permissao :string,
     password : string,
-    
+    instituicao: IInstituicoes 
 }
 export interface IAdmUsuario {
     id: number,

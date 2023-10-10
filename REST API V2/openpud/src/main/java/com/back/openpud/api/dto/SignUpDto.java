@@ -11,7 +11,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class SignUpDto {
-    private String nomeUsuario;
     private String login;
     private String email;
     private String password;

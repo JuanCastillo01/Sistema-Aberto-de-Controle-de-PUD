@@ -12,10 +12,10 @@ interface PageLayoutProps {
 const PageLayout: React.FC<PageLayoutProps> = ({ children, headerText }) => {
   return (
     <Grid container style={{ paddingTop: '128px' }}>
-      <Grid item xs={1} lg={2}></Grid> {/* Left margin */}
+      <Grid item xs={1} lg={2}></Grid>
       <Grid item xs={11} lg={10} style={{ display: 'flex', justifyContent: 'center' }}>
         <Header headerText={headerText} />
-        {children} {/* Place the content inside the center grid */}
+        {children} 
       </Grid>
       
       <Grid item xs={2} lg={2}>

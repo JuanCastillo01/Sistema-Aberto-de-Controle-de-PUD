@@ -47,6 +47,7 @@ public class AuthController {
                 .accessToken(userAuthenticationProvider.createToken(userDto.getLogin()))
                 .token(token.get().getToken())
                 .build());
+
         return ResponseEntity.ok(userMapper.toRespnseDto(userDto));
     }
 

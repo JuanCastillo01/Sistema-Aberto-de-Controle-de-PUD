@@ -14,13 +14,15 @@ import SelecaoUsuario from "../pages/SelecaoUsuario";
 import { IErro } from "../tipagem/IGeral";
 import PaginaInicial from "../pages/PaginaInicial";
 import { IModule } from "../tipagem/IPermissoes";
+import { SeeUserInfo } from "../pages/SeeUserInfo";
+import SeeInstituicao from "../pages/SeeInstituicao";
 
 export const systemModules : IModule[] = [
     {
       name: "Usuario",
       path: "/usuario",
       icone: <AccountCircle  fontSize="large"/>,
-      element: <SelecaoUsuario/>,
+      element: <SeeUserInfo/>,
       permissonType: ["ADMINISTRATOR_DO_SISTEMA","ADMINISTRADOR_DA_INSTITUICAO","GESTOR_DA_INSTITUICAO","VISITANTE_DA_INSTITUICAO"]
     },
     {
@@ -34,7 +36,7 @@ export const systemModules : IModule[] = [
       name: "Instituição",
       path: "/instituição",
       icone: <AccountBalanceIcon  fontSize="large"/>,
-      element: <ManterInstitucoes/>,
+      element: <SeeInstituicao  />,
       permissonType: ["ADMINISTRADOR_DA_INSTITUICAO","GESTOR_DA_INSTITUICAO","VISITANTE_DA_INSTITUICAO"]
     },
     {

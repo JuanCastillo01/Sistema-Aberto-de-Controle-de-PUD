@@ -5,7 +5,7 @@ import { redirect, useNavigate } from 'react-router-dom';
 import { Grid, Box } from '@mui/material';
 import { IUserLoginRequest } from '../tipagem/IUser';
 import { userLoginInitial } from '../constantes/CUser';
-import { cleanToken, request, setInfoToken, setPermissao } from '../api/axiosHelper';
+import { cleanToken, request, setInfoToken,  setUserinfo } from '../api/axiosHelper';
 import { AxiosError } from 'axios';
 
 const LogIn: React.FC = () => {
@@ -27,12 +27,12 @@ const LogIn: React.FC = () => {
       "/auth/login",
       formData
     ).then((res) => {
-      setInfoToken(res.data.token)
-      setPermissao(res.data.permissao)      
       nav("/principal")
+      setInfoToken(res.data.token)  
+      setUserinfo(res.data)      
 
     }).catch((err:AxiosError) => {
-    }).finally((()=>redirect("/principal")))
+    })
   };
 
   return (

@@ -31,7 +31,7 @@ public class InstituicaoEntity {
 
 
     @OneToMany(mappedBy = "instituicao", cascade = CascadeType.ALL)
-    @JsonIgnoreProperties("instituicao")  // This annotation prevents serialization of the related property
+    @JsonIgnoreProperties("instituicao") 
     private List<DominiosAcademicosEntity> dominiosAcademicos;
 
     @OneToMany(mappedBy = "instituicao")
